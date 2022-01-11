@@ -30,10 +30,14 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
+  google_maps_flutter: ^2.1.1
+  http: ^0.13.4
   image_picker: ^0.8.4+4
+  location: ^4.3.0
   path: ^1.8.0
   path_provider: ^2.0.8
   provider: ^6.0.2
+  sqflite: ^2.0.1
 
 dev_dependencies:
   flutter_lints: ^1.0.0

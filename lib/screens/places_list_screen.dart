@@ -19,31 +19,41 @@ class PlacesListScreen extends StatelessWidget {
                 icon: const Icon(Icons.add))
           ],
         ),
-        body: Consumer<GreatPlaces>(
-          builder: (ctx, gplaces, ch) => gplaces.items.isEmpty
-              ? ch!
-              : ListView.builder(
-                  itemCount: gplaces.items.length,
-                  itemBuilder: (_, index) => Container(
-                        decoration: BoxDecoration(
-                            border: Border(
-                                bottom: BorderSide(
-                                    color: Colors.grey.withOpacity(0.3)))),
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 15, horizontal: 10),
-                          leading: CircleAvatar(
-                            radius: 28,
-                            backgroundImage:
-                                FileImage(gplaces.items[index].image),
-                          ),
-                          title: Text(gplaces.items[index].title),
-                          onTap: () {},
-                        ),
-                      )),
-          child: const Center(
-            child: Text("No Places Found.. Add Some Places"),
-          ),
+        body: FutureBuilder(
+          future: Provider.of<GreatPlaces>(context, listen: false)
+              .fetchAndSetPlaces(),
+          builder: (ctx, snapshot) => snapshot.connectionState ==
+                  ConnectionState.waiting
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Consumer<GreatPlaces>(
+                  builder: (ctx, gplaces, ch) => gplaces.items.isEmpty
+                      ? ch!
+                      : ListView.builder(
+                          itemCount: gplaces.items.length,
+                          itemBuilder: (_, index) => Container(
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        bottom: BorderSide(
+                                            color:
+                                                Colors.grey.withOpacity(0.3)))),
+                                child: ListTile(
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 15, horizontal: 10),
+                                  leading: CircleAvatar(
+                                    radius: 28,
+                                    backgroundImage:
+                                        FileImage(gplaces.items[index].image),
+                                  ),
+                                  title: Text(gplaces.items[index].title),
+                                  onTap: () {},
+                                ),
+                              )),
+                  child: const Center(
+                    child: Text("No Places Found.. Add Some Places"),
+                  ),
+                ),
         ));
   }
 }
